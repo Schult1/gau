@@ -22,15 +22,15 @@ various packages/modules.
 
 ## Installation
 
-If you want to install into a self-contained environment, create and enter a virtualenv or conda environment with the version of Python you wish to use. 
+If you want to install into a self-contained environment, create and enter a virtualenv or conda environment with the version of Python you wish to use.
 
 Direct from GitHub installation using:
 
 ```
-pip install --upgrade git+https://git.traffgoroad.com/trips.git
+pip install --upgrade git+https://github.com/Schult1/gau.git
 ```
 
-Alternatively `git clone` this repo and use: 
+Alternatively `git clone` this repo and use:
 
 ```
 pip install --upgrade -r requirements.txt
