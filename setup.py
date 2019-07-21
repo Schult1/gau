@@ -23,7 +23,8 @@ setup(
         'numpy',
         'pandas',
         'requests',
-        'shapely'
+        'shapely',
+        'flask_restplus'
     ]#,
     #test_suite='tests',
     #setup_requires=['pytest-runner'],
