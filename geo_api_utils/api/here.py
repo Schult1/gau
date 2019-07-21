@@ -47,7 +47,7 @@ class ApiCall(object):
 
         Examples
         --------
-
+        call_traffic('incidents', center = '50.936123|6.976234', radius = 1)
 
         Acronyms
         CF: Current flow
