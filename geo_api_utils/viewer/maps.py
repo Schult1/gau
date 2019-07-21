@@ -1,5 +1,6 @@
 """Show miscellaneous at maps.
 """
+import pandas as pd
 import folium
 
 colors = [
@@ -79,67 +80,44 @@ def show_trip(df, TId = None, DId = None):
 
     return m
 
-def show_polygons(poly_lst):
+def show_incidents(loc, jn, provider):
+
+    if provider == 'here':
+        try:
+            no_incidents = pd.DataFrame(jn['TRAFFIC_ITEMS']['TRAFFIC_ITEM']).shape[0]
+        except:
+            no_incidents = 0
+            return "no incidents in response2"
+        t_items={}
+        for i in range(0, len(jn['TRAFFIC_ITEMS']['TRAFFIC_ITEM'])):
+            from_lat = jn['TRAFFIC_ITEMS']['TRAFFIC_ITEM'][i]['LOCATION']['GEOLOC']['ORIGIN']['LATITUDE']
+            from_lon = jn['TRAFFIC_ITEMS']['TRAFFIC_ITEM'][i]['LOCATION']['GEOLOC']['ORIGIN']['LONGITUDE']
+
+            to_lat = jn['TRAFFIC_ITEMS']['TRAFFIC_ITEM'][i]['LOCATION']['GEOLOC']['TO'][0]['LATITUDE']
+            to_lon = jn['TRAFFIC_ITEMS']['TRAFFIC_ITEM'][i]['LOCATION']['GEOLOC']['TO'][0]['LONGITUDE']
+
+            try:
+                desc = jn['TRAFFIC_ITEMS']['TRAFFIC_ITEM'][i]['TRAFFIC_ITEM_DESCRIPTION'][0]['value']
+            except:
+                desc = 'Non'
+            t_items[i] = {'from': (from_lat, from_lon), 'to': (to_lat, to_lon),
+                        'desc': desc}
+
     m = folium.Map(
-        location=poly_lst[0].centroid.coords[0],
+        location=loc,
         #tiles='Stamen Toner',
-        zoom_start=7
-    )
-
-    for i, p in enumerate(poly_lst):
-        folium.Polygon(
-            locations=p.exterior.coords,
-            color = colors[i%len(colors)]
-        ).add_to(m)
-
-    return m
-
-def show_trips(data, start = True):
-    """Show start or ends of Trips at Map.
-    Filter on specific trip or device id if given.
-
-    Arguments
-    ---------
-    data: pandas df with columns startloclat and startloclon
-    start: BOOLEAN
-        If True (default), show starts of the trips.
-        If False, show ends of the trips.
-
-    Returns
-    -------
-    m: folium map
-    """
-
-    if start:
-        pre = 'start'
-        col = 'green'
-    else:
-        pre = 'end'
-        col = 'red'
-
-    center = [(data['{}loclat'.format(pre)].max() + data['{}loclat'.format(pre)].min())/2,
-            (data['{}loclon'.format(pre)].max() + data['{}loclon'.format(pre)].min())/2]
-
-
-    m = folium.Map(
-        location=center,
-        #tiles='Mapbox Bright',
         zoom_start=8
     )
 
-
-    for j, row in data.iterrows():
-        folium.Circle(
-            radius=1,
-            location=[row['{}loclat'.format(pre)], row['{}loclon'.format(pre)]],
+    for i in range(0, len(t_items)):
+        tit = t_items[i]
+        folium.PolyLine(
+            locations=[tit['from'], tit['to']],
             popup = (
-                    "Trip: {tripid}<br>"
-                    "Time: {time}"
-               ).format(tripid=row.tripid, time=row['{}date'.format(pre)]),
-            color=col,
-            fill=True,
+                "from: {}<br>"
+                "to: {}<br>"
+                "description: {}"
+           ).format(tit['from'], tit['to'], tit['desc'])
         ).add_to(m)
-
-    folium.LayerControl().add_to(m)
 
     return m
