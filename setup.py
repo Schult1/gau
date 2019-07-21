@@ -9,7 +9,7 @@ __version__ = open(version_file).read().split("'")[1].rstrip("'\n")
 README = os.path.join(os.path.dirname(__file__), 'README.md')
 long_description = open(README).read()
 setup(
-    name='gau',
+    name='geo_api_utils',
     version=__version__,
     description='gau - Geo API Utilities',
     long_description=long_description,
