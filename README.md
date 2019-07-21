@@ -17,8 +17,13 @@ The aim of this package is to provide a basic set of functions and to address co
 
 ### Notebooks
 
-Contained in 'gau\notebooks', give usage examples for the
+Contained in 'gau/notebooks', give usage examples for the
 various packages/modules.
+
+## Requirements
+APIs need credential which have to be saved as environment variables at the moment.
+here: 'HERE_APP_ID', 'HERE_APP_CODE'
+inrix: 'INRIX_VENDOR_ID', 'INRIX_CONSUMER_ID'
 
 ## Installation
 
@@ -36,6 +41,6 @@ Alternatively `git clone` this repo and use:
 pip install --upgrade -r requirements.txt
 ```
 
-If you want a global install that will make the package available in your base python installation, simply run the 
+If you want a global install that will make the package available in your base python installation, simply run the
 install command above.
   ```
