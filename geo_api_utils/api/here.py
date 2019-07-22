@@ -76,8 +76,16 @@ class ApiCall(object):
         response = requests.get(url)
 
         if analyse:
+<<<<<<< HEAD
             return {'url': url,
                 'response': response}
 
         else:
             return json.loads(response.text)
+=======
+            return json.loads(response.text)
+
+        else:
+            return {'url': url,
+                'response': response}
+>>>>>>> 9372433236a06152cb12ec4584dbc10aa8f5a0d9
