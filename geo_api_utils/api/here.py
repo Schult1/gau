@@ -29,7 +29,7 @@ class ApiCall(object):
             msg += ' names HERE_APP_ID and HERE_APP_CODE respectively.'
             raise e
 
-    def call_traffic(self, api_name, **kwargs):
+    def call_traffic(self, api_name, analyse = False, **kwargs):
         """Call a (old) standard api and return json.
 
         Parameters
@@ -75,4 +75,9 @@ class ApiCall(object):
         print(url)
         response = requests.get(url)
 
-        return json.loads(response.text)
+        if analyse:
+            return json.loads(response.text)
+
+        else:
+            return {'url': url,
+                'response': response}
