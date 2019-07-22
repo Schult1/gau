@@ -22,8 +22,8 @@ class ApiCall(object):
 
     def __init__(self):
         try:
-            self.app_id = os.environ['HERE_APP_ID']
-            self.app_code = os.environ['HERE_APP_CODE']
+            self.app_id = os.environ['HERE_APP_ID'].translate({ord("/'"): None})
+            self.app_code = os.environ['HERE_APP_CODE'].translate({ord("/'"): None})
         except KeyError as e:
             msg = 'App id and app code must be set as environment variables with'
             msg += ' names HERE_APP_ID and HERE_APP_CODE respectively.'
